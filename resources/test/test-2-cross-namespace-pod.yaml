@@ -14,9 +14,7 @@
 #   resource "pods" in API group "" in the namespace "student-peti"
 #
 # A RBAC-ot az auth can-i paranccsal is ellenorizni lehet:
-#   kubectl auth can-i create pods \
-#     --as=system:serviceaccount:student-laci:laci \
-#     -n student-peti
+#   kubectl auth can-i create pods --as=system:serviceaccount:student-laci:laci -n student-peti
 #   Valasz: no
 # =============================================================
 apiVersion: v1

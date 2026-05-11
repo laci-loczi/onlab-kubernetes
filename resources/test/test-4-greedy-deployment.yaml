@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - name: resource-hog
-        image: nginx:alpine
+        image: nginxinc/nginx-unprivileged:alpine
         resources:
           requests:
             cpu: 500m        # 3 replika * 500m = 1500m ossz
