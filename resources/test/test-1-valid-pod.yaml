@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: valid-pod
+  namespace: student-laci
+spec:
+  containers:
+  - name: nginx
+    image: nginxinc/nginx-unprivileged:alpine
+    ports:
+    - containerPort: 8080
+    resources:
+      requests:
+        cpu: 100m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 101
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop: ["ALL"]
+        add: ["NET_BIND_SERVICE"]

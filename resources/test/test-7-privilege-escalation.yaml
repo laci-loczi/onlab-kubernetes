@@ -1,0 +1,31 @@
+# =============================================================
+# test-7-privilege-escalation.yaml
+# RBAC TESZT - Jogosultsag-eszkalacio kiserleti
+#
+# Laci megproblja maganak "cluster-admin" ClusterRoleBinding-ot
+# letrehozni - ezzel az egesz klaszter felett adminisztrator
+# lennek. Ez a legsulyosabb RBAC tamadas.
+#
+# ELVART EREDMENY: Az API szerver TILOS valaszt ad:
+#
+#   Error from server (Forbidden): clusterrolebindings.rbac.
+#   authorization.k8s.io is forbidden: User
+#   "system:serviceaccount:student-laci:laci" cannot create
+#   resource "clusterrolebindings" in API group
+#   "rbac.authorization.k8s.io" at the cluster scope
+#
+# FUTTATASI MOD (laci neveben, impersonalassal):
+#   kubectl apply -f test-7-privilege-escalation.yaml --as=system:serviceaccount:student-laci:laci
+# =============================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: laci-owns-everything   # ha ez sikerulne, laci cluster-admin lenne
+subjects:
+- kind: ServiceAccount
+  name: laci
+  namespace: student-laci
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin           # a legmagasabb szintu K8s szerepkor
+  apiGroup: rbac.authorization.k8s.io

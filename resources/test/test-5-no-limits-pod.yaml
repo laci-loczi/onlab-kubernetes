@@ -1,0 +1,45 @@
+# =============================================================
+# test-5-no-limits-pod.yaml
+# LimitRange TESZT - "Lusta hallgato" (elfelejtett limitek)
+#
+# Ez a Pod SZAN DEKOSAN NEM tartalmaz resources: mezot.
+# A LimitRange automatikusan beinjektalja az alapertelmezett
+# ertekeket:
+#   defaultRequest.cpu:    100m
+#   defaultRequest.memory: 64Mi
+#   default.cpu:           200m   (limit)
+#   default.memory:        128Mi  (limit)
+#
+# ELVART EREDMENY: A Pod sikeresen elindult, es lekerdezeskor
+# latszik a kezzel NEM megadott, automatikusan beallitott limit:
+#
+#   kubectl get pod no-limits-pod -n student-laci -o yaml |  grep -A8 resources
+#
+# Kimeneti minta:
+#   resources:
+#     limits:
+#       cpu: 200m
+#       memory: 128Mi
+#     requests:
+#       cpu: 100m
+#       memory: 64Mi
+# =============================================================
+apiVersion: v1
+kind: Pod
+metadata:
+  name: no-limits-pod
+  namespace: student-laci
+spec:
+  containers:
+  - name: nginx
+    image: nginxinc/nginx-unprivileged:alpine
+    # NEM adunk meg resources: mezot - a LimitRange fogja kiegesziteni
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 101    # nginx Alpine user
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop: ["ALL"]
+        add: ["NET_BIND_SERVICE"]

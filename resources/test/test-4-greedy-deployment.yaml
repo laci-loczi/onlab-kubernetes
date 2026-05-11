@@ -1,0 +1,59 @@
+# =============================================================
+# test-4-greedy-deployment.yaml
+# ResourceQuota TESZT - "Mohо hallgato" (Noisy Neighbor)
+#
+# Ez a Deployment 3 replikat ker, egyenkent 500m CPU-val.
+# Osszesen: 3 * 500m = 1500m CPU igeny
+# A namespace kvotaja: requests.cpu = 500m
+#
+# ELVART EREDMENY:
+#   - Az elso Pod letrejön (500m <= 500m limit)
+#   - A masodik Pod letrehozasat az Admission Controller TILTJA:
+#
+#   Warning FailedCreate ... Error creating: pods
+#   "greedy-deployment-xxx" is forbidden: exceeded quota:
+#   student-quota, requested: requests.cpu=500m,
+#   used: requests.cpu=500m, limited: requests.cpu=500m
+#
+# FUTTATASI MOD (adminisztratorkent, laci neveben):
+#   kubectl apply -f test-4-greedy-deployment.yaml -n student-laci
+#
+# ELLENORZES:
+#   kubectl get pods -n student-laci
+#   kubectl describe replicaset -n student-laci
+#   kubectl get resourcequota student-quota -n student-laci
+# =============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greedy-deployment
+  namespace: student-laci
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: greedy
+  template:
+    metadata:
+      labels:
+        app: greedy
+    spec:
+      containers:
+      - name: resource-hog
+        image: nginx:alpine
+        resources:
+          requests:
+            cpu: 500m        # 3 replika * 500m = 1500m ossz
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 128Mi
+        # Pod Security (restricted) kovetelmenyek teljesitese
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]

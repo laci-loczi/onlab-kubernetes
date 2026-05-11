@@ -1,0 +1,53 @@
+# =============================================================
+# test-6-too-many-pods.yaml
+# ResourceQuota TESZT - Pod-szam limit tullepese
+#
+# A namespace kvotaja: pods: "5"
+# Ez a Deployment 6 replikat ker.
+#
+# ELVART EREDMENY:
+#   - 5 Pod sikeresen letrejön
+#   - A 6. Pod letrehozasat az Admission Controller TILTJA:
+#
+#   Warning FailedCreate ... Error creating: pods
+#   "pod-flood-xxx" is forbidden: exceeded quota: student-quota,
+#   requested: pods=1, used: pods=5, limited: pods=5
+#
+# ELLENORZES:
+#   kubectl get pods -n student-laci --selector=app=pod-flood
+#   kubectl describe deployment pod-flood -n student-laci
+# =============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-flood
+  namespace: student-laci
+spec:
+  replicas: 6   # 1-gyel tobb a kvota limitetnel (5)
+  selector:
+    matchLabels:
+      app: pod-flood
+  template:
+    metadata:
+      labels:
+        app: pod-flood
+    spec:
+      containers:
+      - name: lightweight
+        image: busybox:latest
+        command: ["sh", "-c", "sleep 3600"]
+        resources:
+          requests:
+            cpu: 50m
+            memory: 32Mi
+          limits:
+            cpu: 100m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]

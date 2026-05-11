@@ -1,0 +1,45 @@
+# =============================================================
+# test-2-cross-namespace-pod.yaml
+# RBAC TESZT - Kereszt-namespace hozzaferes kiserleti
+#
+# Ez a Pod laci namespace-ebe van irva, de ha laci megprobalna
+# peti namespace-eben letrehozni, tiltva lesz.
+#
+# ELVART EREDMENY (peti namespace-be probalva):
+#
+#   kubectl apply -f test-2-cross-namespace-pod.yaml --as=system:serviceaccount:student-laci:laci -n student-peti
+#   
+#   Error from server (Forbidden): pods is forbidden: User
+#   "system:serviceaccount:student-laci:laci" cannot create
+#   resource "pods" in API group "" in the namespace "student-peti"
+#
+# A RBAC-ot az auth can-i paranccsal is ellenorizni lehet:
+#   kubectl auth can-i create pods \
+#     --as=system:serviceaccount:student-laci:laci \
+#     -n student-peti
+#   Valasz: no
+# =============================================================
+apiVersion: v1
+kind: Pod
+metadata:
+  name: laci-intrusion-attempt
+  namespace: student-peti    # <-- SZANDEKOSAN peti namespace-e!
+spec:
+  containers:
+  - name: nginx
+    image: nginxinc/nginx-unprivileged:alpine
+    resources:
+      requests:
+        cpu: 100m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 101
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop: ["ALL"]

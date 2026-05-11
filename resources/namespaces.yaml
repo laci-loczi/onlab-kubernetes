@@ -1,27 +1,65 @@
-# Hallgatók namespace-ei
+# =============================================================
+# 1-namespaces-secure.yaml
+# Kubernetes namespace-ek Pod Security Admission (PSA) cimkekkel
+#
+# Hallgatoi namespace-ek: "restricted" policy - tiltja a
+#   privilegizalt kontenereket, host-network hasznalatat, stb.
+# Rendszer namespace-ek: "privileged" policy - teljes hozzaferes
+# =============================================================
+
+# ---- Hallgatoi namespace-ek (restricted PSA) ----
 apiVersion: v1
 kind: Namespace
 metadata:
   name: student-laci
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: latest
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: latest
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: student-lajos
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: latest
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: latest
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: student-peti
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: latest
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: latest
+
 ---
-# Kiértékelő rendszer - hallgatók elől rejtve
+# ---- Kiertekelo rendszer (privileged - a hallgatoktol rejtve) ----
 apiVersion: v1
 kind: Namespace
 metadata:
   name: exam-system
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/enforce-version: latest
+
 ---
-# Admin namespace
+# ---- Admin namespace (privileged) ----
 apiVersion: v1
 kind: Namespace
 metadata:
   name: admin
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/enforce-version: latest

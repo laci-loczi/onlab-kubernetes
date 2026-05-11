@@ -1,0 +1,41 @@
+# =============================================================
+# test-3-hacker-pod.yaml
+# PSA (Pod Security Admission) TESZT - "Hackerpod"
+#
+# Ez a Pod szandekosan MEGSERTI a restricted PSA-t:
+#   - privileged: true  (root hozzaferes a hosthoz)
+#   - hostNetwork: true (host halozati stack hasznalata)
+#   - hostPID: true     (host process namespace eleres)
+#   - runAsUser: 0      (root felhasznalokent fut)
+#
+# ELVART EREDMENY: A letrehozas TILOS. Az Admission Controller
+# elutasitja az alabbih ibauzenettel (vagy hasonloval):
+#
+#   Error from server (Forbidden): error when creating
+#   "test-3-hacker-pod.yaml": pods "hacker-pod" is forbidden:
+#   violates PodSecurity "restricted:latest": privileged
+#   (container "root-shell" must not set
+#   securityContext.privileged=true), hostNetwork
+#   (pod must not set hostNetwork=true)
+#
+# FUTTATASI MOD (laci neveben, impersonalassal):
+#   kubectl apply -f test-3-hacker-pod.yaml --as=system:serviceaccount:student-laci:laci -n student-laci
+# =============================================================
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hacker-pod
+  namespace: student-laci
+spec:
+  # Kernel-szintu gazdagep-hozzaferes probalja meg elesiteni
+  hostNetwork: true
+  hostPID: true
+  hostIPC: true
+  containers:
+  - name: root-shell
+    image: busybox
+    command: ["sh", "-c", "sleep 3600"]
+    securityContext:
+      privileged: true
+      runAsUser: 0
+      allowPrivilegeEscalation: true
