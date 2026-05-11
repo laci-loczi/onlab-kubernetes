@@ -1,0 +1,31 @@
+# Exam-system namespace-re senki más nem kap jogot
+# A hallgatók még listázni sem tudják
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: exam-admin-role
+  namespace: exam-system
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: exam-admin
+  namespace: exam-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: exam-admin-binding
+  namespace: exam-system
+subjects:
+- kind: ServiceAccount
+  name: exam-admin
+  namespace: exam-system
+roleRef:
+  kind: Role
+  name: exam-admin-role
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,103 @@
+# ---- JOHN ----
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: john
+  namespace: student-john
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: student-role
+  namespace: student-john
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps", "persistentvolumeclaims"]
+  verbs: ["get", "list", "create", "update", "delete", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "create", "update", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: john-binding
+  namespace: student-john
+subjects:
+- kind: ServiceAccount
+  name: john
+  namespace: student-john
+roleRef:
+  kind: Role
+  name: student-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# ---- JANE ----
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jane
+  namespace: student-jane
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: student-role
+  namespace: student-jane
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps", "persistentvolumeclaims"]
+  verbs: ["get", "list", "create", "update", "delete", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "create", "update", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: jane-binding
+  namespace: student-jane
+subjects:
+- kind: ServiceAccount
+  name: jane
+  namespace: student-jane
+roleRef:
+  kind: Role
+  name: student-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# ---- BOB ----
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bob
+  namespace: student-bob
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: student-role
+  namespace: student-bob
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps", "persistentvolumeclaims"]
+  verbs: ["get", "list", "create", "update", "delete", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "create", "update", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: bob-binding
+  namespace: student-bob
+subjects:
+- kind: ServiceAccount
+  name: bob
+  namespace: student-bob
+roleRef:
+  kind: Role
+  name: student-role
+  apiGroup: rbac.authorization.k8s.io

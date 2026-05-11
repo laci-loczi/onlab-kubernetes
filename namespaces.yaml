@@ -1,0 +1,27 @@
+# Hallgatók namespace-ei
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student-john
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student-jane
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student-bob
+---
+# Kiértékelő rendszer - hallgatók elől rejtve
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: exam-system
+---
+# Admin namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: admin

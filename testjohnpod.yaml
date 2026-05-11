@@ -1,0 +1,17 @@
+# test-pod-john.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: john-test-pod
+  namespace: student-john
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      requests:
+        cpu: 100m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
