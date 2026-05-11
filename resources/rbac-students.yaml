@@ -1,15 +1,15 @@
-# ---- JOHN ----
+# ---- lajos's service account ----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: john
-  namespace: student-john
+  name: lajos
+  namespace: student-lajos
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: student-role
-  namespace: student-john
+  namespace: student-lajos
 rules:
 - apiGroups: [""]
   resources: ["pods", "services", "configmaps", "persistentvolumeclaims"]
@@ -21,30 +21,30 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: john-binding
-  namespace: student-john
+  name: lajos-binding
+  namespace: student-lajos
 subjects:
 - kind: ServiceAccount
-  name: john
-  namespace: student-john
+  name: lajos
+  namespace: student-lajos
 roleRef:
   kind: Role
   name: student-role
   apiGroup: rbac.authorization.k8s.io
 
 ---
-# ---- JANE ----
+# ---- laci's service account ----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: jane
-  namespace: student-jane
+  name: laci
+  namespace: student-laci
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: student-role
-  namespace: student-jane
+  namespace: student-laci
 rules:
 - apiGroups: [""]
   resources: ["pods", "services", "configmaps", "persistentvolumeclaims"]
@@ -56,30 +56,30 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: jane-binding
-  namespace: student-jane
+  name: laci-binding
+  namespace: student-laci
 subjects:
 - kind: ServiceAccount
-  name: jane
-  namespace: student-jane
+  name: laci
+  namespace: student-laci
 roleRef:
   kind: Role
   name: student-role
   apiGroup: rbac.authorization.k8s.io
 
 ---
-# ---- BOB ----
+# ---- peti's service account ----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: bob
-  namespace: student-bob
+  name: peti
+  namespace: student-peti
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: student-role
-  namespace: student-bob
+  namespace: student-peti
 rules:
 - apiGroups: [""]
   resources: ["pods", "services", "configmaps", "persistentvolumeclaims"]
@@ -91,12 +91,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: bob-binding
-  namespace: student-bob
+  name: peti-binding
+  namespace: student-peti
 subjects:
 - kind: ServiceAccount
-  name: bob
-  namespace: student-bob
+  name: peti
+  namespace: student-peti
 roleRef:
   kind: Role
   name: student-role

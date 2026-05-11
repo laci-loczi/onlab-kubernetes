@@ -1,9 +1,9 @@
-# John kvótája
+# laci kvótája
 apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: student-quota
-  namespace: student-john
+  namespace: student-laci
 spec:
   hard:
     requests.cpu: "500m"
@@ -16,7 +16,7 @@ apiVersion: v1
 kind: LimitRange
 metadata:
   name: student-limitrange
-  namespace: student-john
+  namespace: student-laci
 spec:
   limits:
   - type: Container
@@ -30,12 +30,12 @@ spec:
       cpu: "500m"
       memory: 256Mi
 ---
-# Jane kvótája
+# lajos kvótája
 apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: student-quota
-  namespace: student-jane
+  namespace: student-lajos
 spec:
   hard:
     requests.cpu: "500m"
@@ -48,7 +48,7 @@ apiVersion: v1
 kind: LimitRange
 metadata:
   name: student-limitrange
-  namespace: student-jane
+  namespace: student-lajos
 spec:
   limits:
   - type: Container
@@ -62,12 +62,12 @@ spec:
       cpu: "500m"
       memory: 256Mi
 ---
-# Bob kvótája
+# peti kvótája
 apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: student-quota
-  namespace: student-bob
+  namespace: student-peti
 spec:
   hard:
     requests.cpu: "500m"
@@ -80,7 +80,7 @@ apiVersion: v1
 kind: LimitRange
 metadata:
   name: student-limitrange
-  namespace: student-bob
+  namespace: student-peti
 spec:
   limits:
   - type: Container

@@ -1,9 +1,9 @@
-# test-pod-john.yaml
+# test-pod-laci.yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: john-test-pod
-  namespace: student-john
+  name: laci-test-pod
+  namespace: student-laci
 spec:
   containers:
   - name: nginx
