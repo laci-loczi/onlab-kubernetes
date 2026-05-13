@@ -1,3 +1,24 @@
+# =============================================================
+# test-1-valid-pod.yaml
+# ALAPTESZT - szabalyos Pod (ResourceQuota + LimitRange korlatok kozott)
+#
+# Erforrasok (befér a student-laci kvotaba):
+#   requests: cpu 100m, memory 64Mi   (kvota: requests.cpu 500m, requests.memory 256Mi)
+#   limits:   cpu 200m, memory 128Mi (kvota: limits.cpu 1, limits.memory 512Mi)
+#
+# A konténer securityContext-je megfelel a tipikus hallgatoi
+# szabalyoknak (non-root, seccomp, capability drop + NET_BIND_SERVICE).
+#
+# ELVART EREDMENY: A Pod sikeresen letrejön es Running allapotba kerül
+# (nincs kvota- vagy LimitRange-tiltas).
+#
+# FUTTATASI MOD (adminisztratorkent, laci neveben):
+#   kubectl apply -f test-1-valid-pod.yaml
+#
+# ELLENORZES:
+#   kubectl get pod valid-pod -n student-laci
+#   kubectl describe pod valid-pod -n student-laci
+# =============================================================
 apiVersion: v1
 kind: Pod
 metadata:
