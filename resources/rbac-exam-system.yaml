@@ -1,5 +1,4 @@
-# Exam-system namespace-re senki más nem kap jogot
-# A hallgatók még listázni sem tudják
+#  ---- exam-system role ----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -10,12 +9,14 @@ rules:
   resources: ["*"]
   verbs: ["*"]
 ---
+#  ---- exam-system service account ----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: exam-admin
   namespace: exam-system
 ---
+#  ---- exam-system role binding ----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:

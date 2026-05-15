@@ -4,6 +4,7 @@ kind: ServiceAccount
 metadata:
   name: lajos
   namespace: student-lajos
+# ---- lajos's role ----
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -18,6 +19,7 @@ rules:
   resources: ["deployments"]
   verbs: ["get", "list", "create", "update", "delete"]
 ---
+# ---- lajos's role binding ----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -40,6 +42,7 @@ metadata:
   name: laci
   namespace: student-laci
 ---
+# ---- laci's role ----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -53,6 +56,7 @@ rules:
   resources: ["deployments"]
   verbs: ["get", "list", "create", "update", "delete"]
 ---
+# ---- laci's role binding ----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -75,6 +79,7 @@ metadata:
   name: peti
   namespace: student-peti
 ---
+# ---- peti's role ----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -88,6 +93,7 @@ rules:
   resources: ["deployments"]
   verbs: ["get", "list", "create", "update", "delete"]
 ---
+# ---- peti's role binding ----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:

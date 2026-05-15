@@ -1,13 +1,4 @@
-# =============================================================
-# 1-namespaces-secure.yaml
-# Kubernetes namespace-ek Pod Security Admission (PSA) cimkekkel
-#
-# Hallgatoi namespace-ek: "restricted" policy - tiltja a
-#   privilegizalt kontenereket, host-network hasznalatat, stb.
-# Rendszer namespace-ek: "privileged" policy - teljes hozzaferes
-# =============================================================
-
-# ---- Hallgatoi namespace-ek (restricted PSA) ----
+# ---- laci's namespace ----
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -20,6 +11,7 @@ metadata:
     pod-security.kubernetes.io/audit: restricted
     pod-security.kubernetes.io/audit-version: latest
 ---
+# ---- lajos's namespace ----
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -32,6 +24,7 @@ metadata:
     pod-security.kubernetes.io/audit: restricted
     pod-security.kubernetes.io/audit-version: latest
 ---
+# ---- peti's namespace ----
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -45,7 +38,7 @@ metadata:
     pod-security.kubernetes.io/audit-version: latest
 
 ---
-# ---- Kiertekelo rendszer (privileged - a hallgatoktol rejtve) ----
+# ---- exam-system namespace ----
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -55,7 +48,7 @@ metadata:
     pod-security.kubernetes.io/enforce-version: latest
 
 ---
-# ---- Admin namespace (privileged) ----
+# ---- admin namespace ----
 apiVersion: v1
 kind: Namespace
 metadata:

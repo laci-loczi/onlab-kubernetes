@@ -1,13 +1,4 @@
-# =============================================================
-# 4-resource-quota.yaml
-# ResourceQuota + LimitRange minden hallgatoi namespace-hez,
-# es az exam-system-hez is.
-#
-# ResourceQuota: namespace szintu globalis limit
-# LimitRange:    egyes Podok / kontenerek szintu alapertelmezesek
-# =============================================================
-
-# ---- laci kvotaja ----
+# ---- laci's resource quota ----
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -23,6 +14,7 @@ spec:
     services.nodeports: "0"
     services.loadbalancers: "0"
 ---
+# ---- laci's limit range ----
 apiVersion: v1
 kind: LimitRange
 metadata:
@@ -45,7 +37,7 @@ spec:
       memory: 32Mi
 
 ---
-# ---- lajos kvotaja ----
+# ---- lajos's resource quota ----
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -61,6 +53,7 @@ spec:
     services.nodeports: "0"
     services.loadbalancers: "0"
 ---
+# ---- lajos's limit range ----
 apiVersion: v1
 kind: LimitRange
 metadata:
@@ -83,7 +76,7 @@ spec:
       memory: 32Mi
 
 ---
-# ---- peti kvotaja ----
+# ---- peti's resource quota ----
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -99,6 +92,7 @@ spec:
     services.nodeports: "0"
     services.loadbalancers: "0"
 ---
+# ---- peti's limit range ----
 apiVersion: v1
 kind: LimitRange
 metadata:
@@ -121,7 +115,7 @@ spec:
       memory: 32Mi
 
 ---
-# ---- exam-system kvotaja ----
+# ---- exam-system resource quota ----
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -135,6 +129,7 @@ spec:
     limits.memory: 2Gi
     pods: "20"
 ---
+# ---- exam-system limit range ----
 apiVersion: v1
 kind: LimitRange
 metadata:
